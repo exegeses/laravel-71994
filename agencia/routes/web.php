@@ -31,3 +31,6 @@ Route::get('/vista', function ()
                               ]
     );
 });
+
+Route::view('/nav', 'navbar');
+Route::view('/hero', 'hero');
