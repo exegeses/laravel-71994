@@ -34,3 +34,11 @@ Route::get('/vista', function ()
 
 Route::view('/nav', 'navbar');
 Route::view('/hero', 'hero');
+
+Route::get('/proveedores', function ()
+{
+    //Obtenemos el listado de proveedores
+    $proveedores = DB::select('SELECT * FROM proveedores');
+    //Retornamos la vista
+    return view('proveedores', [ 'proveedores'=>$proveedores ]);
+});

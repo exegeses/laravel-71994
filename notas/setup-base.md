@@ -28,7 +28,7 @@
 
 ### ¿Qué son los Seeders?
 
-> Son clases para cargar datos dentro de nuestras tablas
+> Son clases para insertar datos dentro de nuestras tablas
 
 ### ¿Cómo se crean?
 
@@ -38,3 +38,18 @@
 ### ¿Dónde se ubican los seeders?
 
 > database/seeders/
+
+> Una vez que editamos nuestros Seeders y los tenemos listos 
+> lo próximo que tenemos que hacer es correrlos (ejecutarlos)
+
+> Tenemos dos maneras de ejecutar los Seeders
+
+> Una de las dos maneras es hacerlo de modo individual o sea ejecutar cada clase por separado
+
+    php artisan db:seed --class=RegionSeeder  
+    php artisan db:seed --class=DestinoSeeder  
+
+> La otra manera es centralizar todos los Cedars y ejecutarlos todos en un solo comando
+> Lo primero que debemos hacer es evitar la clase DatabaseSeeder
+
+    php artisan db:seed  
