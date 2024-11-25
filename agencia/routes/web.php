@@ -119,3 +119,56 @@ Route::post('/destino/store', function ()
             );
     }
 });
+
+Route::get('/destino/edit/{idDestino}', function ($idDestino)
+{
+
+    //Obtenemos listado de regiones
+    $regiones = DB::table('regiones')->get();
+    //Obtenemos datos de destino por id
+    $destino = DB::table('destinos')
+                    ->where('idDestino', $idDestino)
+                    ->first();
+    //Retornamos la vista pasándole estos datos
+    return view('destinoEdit',
+            [
+                'regiones'=>$regiones,
+                'destino'=>$destino
+            ]);
+});
+
+Route::post('/destino/update', function ()
+{
+    //Capturamos datos enviados por el form
+    $aeropuerto = request('aeropuerto');
+    $precio = request('precio');
+    $idRegion = request('idRegion');
+    $idDestino = request('idDestino');
+    try {
+        DB::table('destinos')
+                ->where('idDestino', $idDestino)
+                ->update(
+                    [
+                        'aeropuerto'=>$aeropuerto,
+                        'precio'=>$precio,
+                        'idRegion'=>$idRegion
+                    ]
+                );
+        return redirect('/destinos')
+                ->with(
+                    [
+                        'css'=>'green',
+                        'mensaje'=>'Destino: '.$aeropuerto.' modificado correctamente',
+                    ]
+                );
+    }
+    catch ( Throwable $th ){
+        return redirect('/destinos')
+            ->with(
+                [
+                    'css'=>'red',
+                    'mensaje'=>'No se pudo modificar el destino: '.$aeropuerto
+                ]
+            );
+    }
+});
