@@ -172,3 +172,41 @@ Route::post('/destino/update', function ()
             );
     }
 });
+
+Route::get('/destino/delete/{idDestino}', function ($idDestino)
+{
+    //Obtenemos datos de un destino por su id
+    $destino = DB::table('destinos as d')
+                    ->join('regiones as r', 'd.idRegion', '=', 'r.idRegion' )
+                    ->where('idDestino',$idDestino)
+                    ->first();
+    //Retornamos la vista con estos datos
+    return view('destinoDelete', [ 'destino'=>$destino ]);
+});
+
+Route::post('/destino/destroy', function ()
+{
+    $idDestino = request('idDestino');
+    $aeropuerto = request('aeropuerto');
+    try {
+        DB::table('destinos')
+                ->where('idDestino', $idDestino)
+                ->delete();
+        return redirect('/destinos')
+            ->with(
+                [
+                    'css'=>'green',
+                    'mensaje'=>'Destino: '.$aeropuerto.' eliminado correctamente',
+                ]
+            );
+    }
+    catch ( Throwable $th ){
+        return redirect('/destinos')
+            ->with(
+                [
+                    'css'=>'red',
+                    'mensaje'=>'No se pudo elimnar el destino: '.$aeropuerto
+                ]
+            );
+    }
+});
