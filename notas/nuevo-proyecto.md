@@ -42,7 +42,33 @@
 
 ------
 
+## Descarga de un proyecto
 
+> Tenemos dos maneras de descargar el proyecto
+> 1.- Si sabemos usar git simplemente clonamos el proyecto y hacemos un pull
+> 2.- Si no sabemos usar git vamos a descargar un archivo comprimido y luego descomprimirlo
 
+## Generación de configuracion + configuracion + descarga adicional
 
+> Cuando descargamos un proyecto existente, en ese proyecto no está todo lo necesario para que funcione. 
+> Es necesario generar una configuración y descargar archivos adicionales
+
+## Carpeta vendor
+
+    composer update
+
+> Con este comando, Laravel se va a fijar que versión necesitamos descargar y de ese modo va a descargar la carpeta /vendor del sitio oficial de Laravel
+
+## Archivo .env
+> Cuando descargamos un proyecto existente no se descarga el archivo.env
+> Entonces debemos generar lo renombre ando copiando y pegando el archivo con el nombre .env.example
+
+## Generación de llave
+
+    php  artisan key:generate
+
+> Ahora si ya tenemos nuestro proyecto listo para correr las migraciones ejecutarlos Seeders y comenzar a desarrollar
+
+    php artisan migrate
+    php artisan db:seed
 
