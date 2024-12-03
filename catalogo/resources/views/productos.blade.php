@@ -41,23 +41,23 @@
                 </thead>
 
                 <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-
+            @foreach( $productos as $producto )
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td class="p-4 text-gray-700 dark:text-gray-400">
-                            <img src="/imgs/productos/{{ 'prdImagen' }}">
+                            <img src="/imgs/productos/{{ $producto->prdImagen }}">
                         </td>
                         <th scope="row" class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
-                            {{ 'prdNombre' }}
+                            {{ $producto->prdNombre }}
                         </th>
                         <td class="py-4 px-6 text-sm font-medium text-gray-500  dark:text-white">
-                            {{ 'mkNombre' }}
+                            {{ $producto->getMarca->mkNombre }}
                         </td>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900  dark:text-white">
-                            {{ 'catNombre' }}
+                            {{ $producto->getCategoria->catNombre }}
                         </td>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900  dark:text-white">
                                             <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
-                                                ${{ 'prdPrecio' }}
+                                                ${{ $producto->prdPrecio }}
                                             </span>
                         </td>
                         <td class="py-4 px-6 text-sm font-medium text-right ">
@@ -75,12 +75,12 @@
                             </a>
                         </td>
                     </tr>
+            @endforeach
                 </tbody>
-
             </table>
 
-            <div class="w-2/3 mx-auto mt-8">
-                {{ 'links' }}
+            <div class="w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 mt-8">
+                {{ $productos->links() }}
             </div>
 
         </div>

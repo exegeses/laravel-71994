@@ -12,7 +12,12 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        //Obtenemos el listado de marcas
+        //$marcas = Marca::all();
+        //$marcas = Marca::orderBy('idMarca', 'desc')->get();
+        $marcas = Marca::orderBy('idMarca', 'desc')->paginate(6);
+        //Retornamos la vista marcas pasándole el listado de marcas
+        return view('marcas', [ 'marcas'=>$marcas ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        //
+        return 'método create';
     }
 
     /**
