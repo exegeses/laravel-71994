@@ -8,16 +8,22 @@
         <!-- formulario -->
         <div class="shadow-md rounded-md max-w-3xl mb-72">
             <form action="/marca/update" method="post">
-                
+            @csrf
+            @method('put')
                 <div class="p-6">
                     <div class="relative z-0 w-full mb-6 group">
                         <input type="text" name="mkNombre" id="mkNombre"
-                               value="{{ old('mkNombre') }}"
+                               value="{{ old('mkNombre', $marca->mkNombre) }}"
                                class="block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" ">
                         <label for="mkNombre" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre de la marca</label>
-
+                        @if( $errors->has('mkNombre') )
+                            <span class="text-sm text-rose-400">
+                                {{ $errors->first('mkNombre') }}
+                            </span>
+                        @endif
                     </div>
-
+                    <input type="hidden" name="idMarca"
+                           value="{{ $marca->idMarca }}">
 
                     <div class="flex justify-between">
                         <button type="submit" class="text-white bg-teal-800 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-teal-700 dark:hover:bg-teal-600 dark:focus:ring-teal-800">

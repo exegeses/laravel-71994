@@ -25,7 +25,21 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        return 'método create';
+        return view('marcaCreate');
+    }
+
+    private function validarMarca(Request $request)
+    {
+        $request->validate(
+            //['campo'=>'regla1|regla2|regla3'|], ['campo.regla'=>'mensaje']
+            [ 'mkNombre' => 'required|unique:marcas,mkNombre|min:2|max:45' ],
+            [
+                'mkNombre.required'=>'Complete el campo "Nombre de la marca"',
+                'mkNombre.unique'=>'Ya existe una marca con ese nombre',
+                'mkNombre.min'=>'El campo "Nombre de la marca" debe tener al menos 2 caractéres',
+                'mkNombre.max'=>'El campo "Nombre de la marca" debe tener 45 caractéres como máximo'
+            ]
+        );
     }
 
     /**
@@ -33,7 +47,33 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Capturamos dato enviado por el formulario
+        $mkNombre = $request->mkNombre;
+        // validación
+        $this->validarMarca($request);
+        try {
+            //instanciamos
+            $marca = new Marca;
+            //Asignamos atributos
+            $marca->mkNombre = $mkNombre;
+            //Almacenamos en tabla
+            $marca->save();
+            return redirect('/marcas')
+                ->with(
+                    [
+                        'mensaje'=>'Marca '.$mkNombre.' creada exitosamente',
+                        'css'=>'green'
+                    ]
+                );
+        }catch( Throwable $th ){
+            return redirect('/marcas')
+                ->with(
+                    [
+                        'mensaje'=>'No se pudo crear la marca: '.$mkNombre,
+                        'css'=>'red'
+                    ]
+                );
+        }
     }
 
     /**
@@ -48,8 +88,13 @@ class MarcaController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Marca $marca)
+    //public function edit(string $id)
     {
-        //
+        //Obtenemos los datos de una marca filtrada por su ID
+        /*$marca = Marca::where('idMarca',$id)
+                            ->first();*/
+        //$marca = Marca::find($id);
+        return view('marcaEdit', ['marca'=>$marca]);
     }
 
     /**
