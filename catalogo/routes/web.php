@@ -17,6 +17,8 @@ Route::get('/marcas', [MarcaController::class, 'index']);
 Route::get('/marca/create', [MarcaController::class, 'create']);
 Route::post('/marca/store', [MarcaController::class, 'store']);
 Route::get('/marca/edit/{marca}', [MarcaController::class, 'edit']);
+Route::put('/marca/update/{marca}', [MarcaController::class, 'update']);
+Route::get('/marca/delete/{marca}', [MarcaController::class, 'delete']);
 
 #####################################
 ###### crud de productos

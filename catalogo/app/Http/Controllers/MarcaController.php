@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
+use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 class MarcaController extends Controller
 {
@@ -102,7 +105,54 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        //
+        $mkNombre = $request->mkNombre;
+        $idMarca = $request->idMarca;
+        $this->validarMarca($request);
+        try {
+            // $marca = Marca::find($idMarca);
+            // asignamos atributo modificando valores
+            $marca->mkNombre = $mkNombre;
+            $marca->save();
+            return redirect('/marcas')
+                ->with(
+                    [
+                        'mensaje'=>'Marca '.$marca->mkNombre.' modificada exitosamente',
+                        'css'=>'green'
+                    ]
+                );
+        }
+        catch ( Throwable $th ){
+                return redirect('/marcas')->with([
+                    'mensaje' => 'Error al modificar la marca.',
+                    'css' => 'red'
+                ]);
+        }
+    }
+
+    private function checkProductoPorMarca( int $idMarca )
+    {
+        // objeto | NULL
+        /* $check = DB::table('productos')
+                    ->where('idMarca', $idMarca)->first(); */
+        // int
+        $count = DB::table('productos')
+                    ->where('idMarca', $idMarca)->count();
+        return $count;
+    }
+
+    public function delete(Marca $marca)
+    {
+        //vericar
+        if( Producto::checkProductoPorMarca($marca->idMarca) ){
+            return redirect('/marcas')
+                    ->with(
+                        [
+                            'mensaje'=>'No se puede eliminar la marca: '.$marca->mkNombre.' ya que tiene productos relacionados',
+                            'css'=>'yellow'
+                        ]
+                    );
+        }
+        return view('marcaDelete', [ 'marca'=>$marca ]);
     }
 
     /**

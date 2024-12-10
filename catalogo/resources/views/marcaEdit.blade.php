@@ -7,7 +7,7 @@
 
         <!-- formulario -->
         <div class="shadow-md rounded-md max-w-3xl mb-72">
-            <form action="/marca/update" method="post">
+            <form action="/marca/update/{{$marca->idMarca}}" method="post">
             @csrf
             @method('put')
                 <div class="p-6">

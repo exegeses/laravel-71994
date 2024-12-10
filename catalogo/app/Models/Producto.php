@@ -25,4 +25,13 @@ class Producto extends Model
             'idCategoria'
         );
     }
+
+    static function checkProductoPorMarca( int $idMarca )
+    {
+        //obj | null
+        //return Producto::where('idMarca', $idMarca)->first();
+        //return Producto::find($idMarca);
+        //int
+        return Producto::where('idMarca', $idMarca)->count();
+    }
 }
