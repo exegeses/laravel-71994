@@ -7,8 +7,9 @@
 
         <!-- formulario -->
         <div class="shadow-xl rounded-md max-w-3xl mb-72">
-            <form action="/marca/destroy" method="post">
-                @csrf
+            <form action="/marca/destroy/{{$marca->idMarca}}" method="post">
+            @csrf
+            @method('delete')
                 <div class="p-6">
 
                     <div class="relative z-0 w-full mb-6 group">
