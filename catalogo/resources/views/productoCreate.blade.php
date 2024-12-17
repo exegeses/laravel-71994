@@ -7,11 +7,11 @@
 
 
         <form action="/producto/store" method="post" enctype="multipart/form-data">
-
+        @csrf
             <div class="relative z-0 w-full mb-6 group">
                 <input type="text" name="prdNombre" id="prdNombre"
                        class="block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" "
-                       value="{{ 'prdNombre' }}">
+                       value="{{ old('prdNombre') }}">
                 <label for="prdNombre" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre del producto</label>
                 @if ($errors->has('prdNombre'))
                     <span class="text-sm text-rose-400">{{ $errors->first('prdNombre') }}</span>
@@ -21,7 +21,7 @@
             <div class="relative z-0 w-full mb-6 mt-2 group">
                 <input type="text" name="prdPrecio" id="prdPrecio"
                        class="block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" "
-                       value="{{ 'prdPrecio' }}">
+                       value="{{ old('prdPrecio') }}">
                 <label for="prdPrecio" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Precio del producto</label>
                 @if ($errors->has('prdPrecio'))
                     <span class="text-sm text-rose-400">{{ $errors->first('prdPrecio') }}</span>
@@ -31,9 +31,11 @@
             <div class="relative z-0 w-full mb-6 group">
                 <select name="idMarca" id="idMarca" class="block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" ">
                     <option value="">Seleccione una marca</option>
-
-                        <option value="{{ 'idMarca' }}">{{ 'mkNombre' }}</option>
-
+                    @foreach ($marcas as $marca)
+                        <option @selected($marca->idMarca == old('idMarca')) value="{{ $marca->idMarca }}">
+                            {{ $marca->mkNombre }}
+                        </option>
+                    @endforeach
                 </select>
                 <label for="idMarca" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Marca del producto</label>
                 @if ($errors->has('idMarca'))
@@ -44,9 +46,9 @@
             <div class="relative z-0 w-full mb-6 group">
                 <select name="idCategoria" id="idCategoria" class="block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" ">
                     <option value="">Seleccione una categoría</option>
-
-                        <option value="{{ 'idCategoria' }}">{{ 'catNombre' }}</option>
-
+                    @foreach($categorias as $categoria)
+                        <option @selected( $categoria->idCategoria == old('idCategoria') ) value="{{ $categoria->idCategoria }}">{{ $categoria->catNombre }}</option>
+                    @endforeach
                 </select>
                 <label for="idCategoria" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Categoría del producto</label>
                 @if ($errors->has('idCategoria'))
@@ -56,7 +58,7 @@
 
             <div class="relative z-0 w-full mb-6 group">
                             <textarea name="prdDescripcion" id="prdDescripcion" rows="2" class="resize-none block py-2.5 px-0 w-full text-2xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-teal-400 dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer" placeholder=" "
-                            >{{ 'prdDescripcion' }}</textarea>
+                            >{{ old('prdDescripcion') }}</textarea>
                 <label for="prdDescripcion" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Descripción del producto</label>
                 @if ($errors->has('prdDescripcion'))
                     <span class="text-sm text-rose-400">{{ $errors->first('prdDescripcion') }}</span>
