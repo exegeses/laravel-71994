@@ -36,12 +36,52 @@ class ProductoController extends Controller
                 ]);
     }
 
+    private function subirImagen(Request $request) : string
+    {
+
+        // Si no enviaron imagen
+        $prdImagen = 'noDisponible.svg';
+
+        //dd($request->file('prdImagen')); // obj
+        //dd($request->hasFile('prdImagen')); // bool
+        if ( $request->hasFile('prdImagen') ) {
+            // nombre del archivo
+            //$prdImagen = $request->file('prdImagen')->getClientOriginalName();
+            $prdImagen = time().'.'.$request->file('prdImagen')
+                                        ->getClientOriginalExtension();
+            // copia archivo
+            $request->file('prdImagen')
+                        ->move( public_path('/imgs/productos'), $prdImagen );
+
+        }
+        return $prdImagen;
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store( ProductoRequest $request)
+    public function store( ProductoRequest $request )
     {
-        return 'pasó validación';
+        $prdNombre = $request->prdNombre;
+        $prdImagen = $this->subirImagen($request);
+        try {
+            $producto = new Producto;
+            // asignamos atributos
+            $producto->prdNombre = $prdNombre;
+            $producto->prdPrecio = $request->prdPrecio;
+            $producto->idMarca = $request->idMarca;
+            $producto->idCategoria = $request->idCategoria;
+            $producto->prdDescripcion = $request->prdDescripcion;
+            $producto->prdImagen = $prdImagen;
+        }
+        catch( Throwable $th ){
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'No se pudo agregar el producto: '.$prdNombre,
+                        'css'=>'red'
+                    ]
+                );
+        }
     }
 
     /**
