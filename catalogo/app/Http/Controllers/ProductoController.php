@@ -52,7 +52,6 @@ class ProductoController extends Controller
             // copia archivo
             $request->file('prdImagen')
                         ->move( public_path('/imgs/productos'), $prdImagen );
-
         }
         return $prdImagen;
     }
@@ -72,6 +71,15 @@ class ProductoController extends Controller
             $producto->idCategoria = $request->idCategoria;
             $producto->prdDescripcion = $request->prdDescripcion;
             $producto->prdImagen = $prdImagen;
+            //almacenamiento en tabla productos
+            $producto->save();
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'Producto '.$prdNombre.' creado exitosamente',
+                        'css'=>'green'
+                    ]
+                );
         }
         catch( Throwable $th ){
             return redirect('/productos')
